@@ -1,2 +1,5 @@
-# ntu-msds-sd6103
-Project repository for module SD6103 (Data Systems) under Masters of Science in Data Science (NTU).
+# SD6103 Project
+
+
+![screen of sample xml data](assets\test_xml_screenshot.png)
+*[Link](https://dblp.uni-trier.de/rec/journals/isafm/GiriDDC21.xml)*
