@@ -1,13 +1,21 @@
 # SD6103 Project
 
 
-![screen of sample xml data](assets/test_xml_screenshot.png)
-*[Link](https://dblp.uni-trier.de/rec/journals/isafm/GiriDDC21.xml)*
 
 
-## Installations & Usage
 
-### Set up
+| ![screen of sample xml data](assets/test_xml_screenshot.png) |
+|:--:|
+| <b>[Link](https://dblp.uni-trier.de/rec/journals/isafm/GiriDDC21.xml)</b> - [SD6103 Project](#sd6103-project)
+
+- [SD6103 Project](#sd6103-project)
+  - [1. Installations](#1-installations)
+  - [2. Usage](#2-usage)
+    - [2.1. Downloading and Preparing dataset](#21-downloading-and-preparing-dataset)
+    - [2.2. Parsing and extracting the xml data to a csv](#22-parsing-and-extracting-the-xml-data-to-a-csv)
+
+## 1. Installations
+
 Code execution is prepared and managed using Python. Set up your own preferred local virtual environment, or use the format below:
 
 Run the following in the file directory containig the cloned repository.
@@ -20,10 +28,10 @@ pip install -r requirements.txt
 
 ```
 
-### Usage
+## 2. Usage
 Python modules are stored in [src](src/). Make sure you're in the root directory of the folder when executing the following commands in the terminal.
 
-### Downloading and Preparing dataset
+### 2.1. Downloading and Preparing dataset
 If you have not downloaded the datasets, execute the `download_prepare.py` module
 ```
 python3 src/extract.py
@@ -32,9 +40,9 @@ python3 src/extract.py
 python3 -m src.extract
 ```
 
-You will see 3 new items in your *root* directory - (1) `dblp.dtd`, `dblp.xml` and `dblp.xml.gz`. For directory organisational purposes, you should place the data artifacts in a separate folder. E.g. `artifacts/`. 
+You will see 3 new items in your *root* directory - `dblp.dtd`, `dblp.xml` and `dblp.xml.gz`. For directory organisational purposes, you should place the data artifacts in a separate folder. E.g. `artifacts/`. 
 
-### Parsing and extracting the xml data to a csv
+### 2.2. Parsing and extracting the xml data to a csv
 
 Once you have the dblp dataset successfully downloaded, you can continue to parse and extract the xml data. 
 
