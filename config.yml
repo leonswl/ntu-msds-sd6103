@@ -1,0 +1,3 @@
+execute_parser:
+  dblp_path: "artifacts/dblp.xml"
+  save_path: "dblp.jsonl"
