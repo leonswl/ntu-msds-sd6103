@@ -1,3 +1,12 @@
 execute_parser:
   dblp_path: "artifacts/dblp.xml"
-  save_path: "dblp.jsonl"
+  csv_save_path: "artifacts/dblp.csv"
+
+split:
+  read_path: "artifacts/dblp.csv"
+  rows_each: 100000
+  output_path: "artifacts/split"
+
+combine:
+  read_path: "artifacts/split"
+  output_path: "artifacts"

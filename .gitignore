@@ -3,6 +3,7 @@
 *.xml
 *.dtd
 *.gz
+*dblp.csv
 
 
 # Byte-compiled / optimized / DLL files

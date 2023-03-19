@@ -9,9 +9,10 @@
   - [1. Table of Contents](#1-table-of-contents)
   - [2. Installations](#2-installations)
   - [3. Usage](#3-usage)
-    - [3.1. Downloading and Preparing dataset](#31-downloading-and-preparing-dataset)
-    - [3.2. Parsing and extracting the xml data to a csv](#32-parsing-and-extracting-the-xml-data-to-a-csv)
-    - [3.3. Split and Combine](#33-split-and-combine)
+    - [3.1. Scripts](#31-scripts)
+    - [3.2. Downloading and Preparing dataset](#32-downloading-and-preparing-dataset)
+    - [3.3. Parsing and extracting the xml data to a csv](#33-parsing-and-extracting-the-xml-data-to-a-csv)
+    - [3.4. Split and Combine](#34-split-and-combine)
     - [4. Configuration](#4-configuration)
     - [5. References](#5-references)
 
@@ -24,15 +25,28 @@ Run the following in the file directory containig the cloned repository.
 # set up venv
 python3 -m venv .venv
 
+# activate environment
+source .venv/bin/activate # mac
+.venv/Scripts/activate # windows
+
 # install python dependencies
 pip install -r requirements.txt
 
+# freeze dependencies
+pip freeze > requirements.txt
 ```
 
 ## 3. Usage
 Python modules are stored in [src](src/). Make sure you're in the root directory of the folder when executing the following commands in the terminal. Before running the modules below, do review the `config.yml` file to ensure the parameters are accurate. For more information on configuration, scroll down to [4. Configuration](#4-configuration).
 
-### 3.1. Downloading and Preparing dataset
+### 3.1. Scripts
+- `download_prepare.py`: execute downloading and preparing of raw dataset
+- `dblp_parser`: utility parsing functions 
+- `execute_parser`: execute parsing from `dblp_parser`
+- `split.py`: split one larger dataset into multiple smaller files
+- `combine.py`: combine multiple data smaller data sets into one
+
+### 3.2. Downloading and Preparing dataset
 If you have not downloaded the datasets, execute the `download_prepare.py` module
 ```
 python3 src/extract.py
@@ -43,7 +57,7 @@ python3 -m src.extract
 
 You will see 3 new items in your *root* directory - `dblp.dtd`, `dblp.xml` and `dblp.xml.gz`. For directory organisational purposes, you should place the data artifacts in a separate folder. E.g. `artifacts/`. 
 
-### 3.2. Parsing and extracting the xml data to a csv
+### 3.3. Parsing and extracting the xml data to a csv
 
 Once you have the dblp dataset successfully downloaded, you can continue to parse and extract the xml data. 
 
@@ -53,7 +67,7 @@ python3 src/execute_parser.py
 
 Note that this step takes some time and will use up quite abit of RAM so be prepared for your machine to slow down when executing the commands below.
 
-### 3.3. Split and Combine
+### 3.4. Split and Combine
 
 Due to the large file size of the dblp file, it will be not feasible to upload the entire dataset directly as it is.
 

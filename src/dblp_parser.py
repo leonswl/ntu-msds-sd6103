@@ -1,4 +1,5 @@
 from datetime import datetime
+import time
 import re
 import os
 import sys
@@ -627,10 +628,7 @@ class DBLP:
         if output not in ["jsonl", "dataframe"]:
             raise ValueError("Outputs available are 'jsonl', or 'dataframe'.")
 
-
         features_to_extract = self.__check_features(features_to_extract)
-
-
 
         root = self.__open_dblp_file(dblp_path)
 
@@ -660,16 +658,38 @@ class DBLP:
 
             self.__log_msg("Parsing all. Started.")
 
-            dataframe = pd.DataFrame(columns=list(features_to_extract))
+            dataframes = [] # initialise empty list
+            # dataframe = pd.DataFrame(columns=list(features_to_extract))
+            self.__log_msg(f'total roots: {len(root)}')
+            count = 0 # initialise counter
+            start_time = time.time()
+            
             for element in root:
                 if element.tag in self.all_elements:
                     attrib_values = self.__extract_features(element, features_to_extract, include_key_and_mdate)
-                    dataframe = dataframe.append(attrib_values, ignore_index=True)
+                    dataframes.append(pd.DataFrame([attrib_values], columns=list(features_to_extract)))
+
+                    # dataframe = dataframe.append(attrib_values, ignore_index=True)
+
+                # print progress status for every 10,000 elements parsed
+                count += 1
+                if count%10000 == 0:
+                    time_taken = time.time()-start_time
+                    remaining_elements = len(root)-count
+                    self.__log_msg(f"""
+                    Elements parsed: {count}
+                    Time Taken: {time_taken/60} minutes
+                    Remaining Elements: {remaining_elements}
+                    Estimated Time Remaining: {(time_taken/count)*(remaining_elements)/60} minutes
+                    -------
+                    """)
+            
+            dataframe = pd.concat(dataframes, ignore_index=True)
+            pd.to_csv(save_path)
 
 
             self.__log_msg("Parsing all. Finished.")
             return dataframe
-
 
 
     def print_features(self)->None:
