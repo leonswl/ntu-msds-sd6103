@@ -78,13 +78,6 @@ Due to the large file size of the dblp file, it will be not feasible to upload t
 python3 src/combine.py
 ```
 
-```
-# parser using a deprecated dataframe.append() method which will result in numerous warnings. 
-# to execute parser while suppressing warnings, run the following
-python3 -W src/execute_parser.py 
-
-```
-
 ### 4. Configuration
 
 To simplify the execution of scripts, parameters for calling the modules can predefined using [config.yml](config.yml). 
