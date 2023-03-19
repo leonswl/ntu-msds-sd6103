@@ -4,6 +4,7 @@
 *.dtd
 *.gz
 *dblp.csv
+*dblp_copy.csv
 
 
 # Byte-compiled / optimized / DLL files
