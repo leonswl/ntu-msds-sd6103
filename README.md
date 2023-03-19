@@ -104,7 +104,8 @@ To simplify the execution of scripts, parameters for calling the modules can pre
 - `rows_each`: number of rows to be split in each of the smaller files 
 
 **combine**
-- `
+- `read_path`: path where split csv files are stored at
+- `output_path`: path where combined dataset to be written to
 
 ### 5. References
 
