@@ -20,7 +20,7 @@
 
 Code execution is prepared and managed using Python. Set up your own preferred local virtual environment, or use the format below:
 
-Run the following in the file directory containig the cloned repository.
+Run the following in the file directory containing the cloned repository.
 ```
 # set up venv
 python3 -m venv .venv
@@ -102,7 +102,7 @@ To simplify the execution of scripts, parameters for calling the modules can pre
 
 ### 5. References
 
-- [dblp_parser](src/dblp_parser.py) - dblp parser script is referenced from [angelosalatino](https://github.com/angelosalatino/dblp-parser) with some slight adaptions. Namely the `DBLP.parse_all()` method `pandas.concat()` instead of the deprecated `frame.append()` to improve efficiency. Iteratively appending rows using the `frame.append()` method can be more computationally intensive than a single concatenate. The adaption creates an empty list and appends new dataframes to the list, and then concatenate the list of dataframes all at once. A progress tracking output is also added for logging to indicate progress state.
+- [dblp_parser](src/dblp_parser.py) - dblp parser script is referenced from [angelosalatino](https://github.com/angelosalatino/dblp-parser) with some slight adaptions. Namely the `DBLP.parse_all()` method uses the `pandas.concat()` instead of the deprecated `frame.append()` to improve efficiency. Iteratively appending rows using the `frame.append()` method can be more computationally intensive than a single concatenate. The adaption creates an empty list and appends new dataframes to the list, and then concatenate the list of dataframes all at once. A progress tracking output is also added for logging to indicate progress state.
 - [splt csv](src/split.py) - the csv split script is referenced and adapted from [kelvintaywl](https://gist.github.com/kelvintaywl/37dbfaea789707ec5f48#file-split-py)
 
 
