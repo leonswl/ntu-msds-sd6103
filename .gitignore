@@ -6,6 +6,7 @@
 *dblp.csv
 *dblp_copy.csv
 *.DS_Store
+*.parquet
 
 
 # Byte-compiled / optimized / DLL files
