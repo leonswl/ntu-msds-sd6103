@@ -658,18 +658,19 @@ class DBLP:
 
             self.__log_msg("Parsing all. Started.")
 
-            dataframes = [] # initialise empty list
-            # dataframe = pd.DataFrame(columns=list(features_to_extract))
             self.__log_msg(f'total roots: {len(root)}')
+
+            # initialise loop
             count = 0 # initialise counter
-            start_time = time.time()
+            start_time = time.time() # initialise timer
+            dataframes = [] # initialise empty list
 
             for element in root:
                 if element.tag in self.all_elements:
                     attrib_values = self.__extract_features(element, features_to_extract, include_key_and_mdate)
-                    dataframes.append(pd.DataFrame([attrib_values], columns=list(features_to_extract)))
-
-                    # dataframe = dataframe.append(attrib_values, ignore_index=True)
+                    df_attrib_values = pd.DataFrame([attrib_values], columns=list(features_to_extract))
+                    df_attrib_values['tag'] = element.tag
+                    dataframes.append(df_attrib_values)
 
                 # print progress status for every 10,000 elements parsed
                 count += 1
@@ -684,12 +685,14 @@ class DBLP:
                     -------
                     """)
             
+            # combine list of dataframes into one
             dataframe = pd.concat(dataframes, ignore_index=True)
+
+            # export dataframe as csv 
             try:
                 dataframe.to_csv(save_path)
             except Exception as e:
                 print(e)
-
 
             self.__log_msg("Parsing all. Finished.")
             return dataframe

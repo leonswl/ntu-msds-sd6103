@@ -9,6 +9,12 @@ def main():
         dblp_path = cfg['execute_parser']['dblp_path']
         csv_save_path = cfg['execute_parser']['csv_save_path']
 
+    print(f"""
+    Config Parameters:
+    `dblp_path`: {dblp_path}
+    `csv_save_path`: {csv_save_path}
+    """)
+
     # instantiate DBLP class
     dblp = DBLP()
     # features = {"url", "author", "ee", "journal", "number", "pages", "publisher", "series","booktitle", "title", "volume", "year"}
@@ -24,9 +30,7 @@ def main():
             output="dataframe", 
             include_key_and_mdate=True)
 
-    df.to_csv("dblp1.csv")
-    # df.to_parquet("dblp.csv")
-
+    df.to_parquet("dblp.parquet")
 
 if __name__ == "__main__":
     main()
