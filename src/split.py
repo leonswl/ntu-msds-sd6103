@@ -1,6 +1,6 @@
 # Script to split csv file into multiple sets
+import contextlib
 import csv
-import sys
 import os
 import yaml
 
@@ -18,17 +18,31 @@ def split():
         rows_each=cfg['split']['rows_each']
         output_path=cfg['split']['output_path']
 
+    print(f"""
+        Config Parameters:
+        `read_path`: {read_path}
+        `rows_each`: {rows_each}
+        `output_path`: {output_path}
+    """)
+
+    # make directory if 'artifacts/split' does not exist
+    with contextlib.suppress(FileExistsError):
+        os.makedirs(output_path)
+
     # Get the filename and rows per csv from the configuration
     filename = read_path.split("/")[-1]  # Extracts filename from read path
     file_name = os.path.splitext(read_path)[0]  # Removes extension from filename
-    file_name = file_name.split('/')[1]  # Extracts filename from file path
+    file_name = file_name.split('/')[-1]  # Extracts filename from file path
+    
     rows_per_csv = rows_each
+
+    print("Commence splitting of files. This process will take a few minutes.")
 
     # Read the input csv file
     with open(read_path) as infile:
         reader = csv.DictReader(infile)
         header = reader.fieldnames
-        rows = [row for row in reader]
+        rows = list(reader)
         pages = []
 
         row_count = len(rows)
