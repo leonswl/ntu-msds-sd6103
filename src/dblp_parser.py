@@ -10,7 +10,7 @@ import requests
 from hurry.filesize import size
 import gzip
 import shutil
-
+from math import ceil
 
 class DBLP:
     """ The DBLP class that parses the XML DBLP dump """
@@ -177,6 +177,40 @@ class DBLP:
             tree = etree.parse(dblp_path, parser=parser)
             root = tree.getroot()
             self.__log_msg("Successfully loaded \"{}\".".format(dblp_path))
+            return root
+
+        except IOError:
+            self.__log_msg("ERROR: Failed to load file \"{}\". Please check your XML and DTD files.".format(dblp_path))
+            sys.exit()
+
+    def open_dblp_file(self, dblp_path:str) -> etree._Element:
+        """
+        Opens the DBLP file and returns the XML tree.
+        It raises some errors if the files (includng dtd) are not available.
+
+        Parameters
+        ----------
+        dblp_path : str
+            Source file of the DBLP file.
+
+        Returns
+        -------
+        root : etree._Element
+
+
+        """
+        if not os.path.exists(os.path.join(os.path.dirname(dblp_path),"dblp.dtd")):
+            print("Warning! File **dblp.dtd** not found in the same directory of the source file. This may cause issues when loading.")
+
+        try:
+            parser = etree.XMLParser(resolve_entities=True,
+                                     dtd_validation=False,
+                                     load_dtd=True,
+                                     no_network=False,
+                                     encoding="ISO-8859-1")
+            tree = etree.parse(dblp_path, parser=parser)
+            root = tree.getroot()
+            self.__log_msg(f'Successfully loaded \"{dblp_path}\".')
             return root
 
         except IOError:
@@ -657,13 +691,13 @@ class DBLP:
             self.__log_msg("WARNING. This operation may take some time and will certainly use an abundance of RAM.")
 
             self.__log_msg("Parsing all. Started.")
-
+            
             self.__log_msg(f'total roots: {len(root)}')
 
             # initialise loop
-            count = 0 # initialise counter
+            count = 0 # initialise counter for root elements
             start_time = time.time() # initialise timer
-            dataframes = [] # initialise empty list
+            dataframes = [] # initialise empty list for appending dataframes
 
             for element in root:
                 if element.tag in self.all_elements:
@@ -684,7 +718,7 @@ class DBLP:
                     Estimated Time Remaining: {(time_taken/count)*(remaining_elements)/60} minutes
                     -------
                     """)
-            
+
             # combine list of dataframes into one
             dataframe = pd.concat(dataframes, ignore_index=True)
 
@@ -696,7 +730,103 @@ class DBLP:
 
             self.__log_msg("Parsing all. Finished.")
             return dataframe
+        
+    def parse_batch(self, root:etree._Element, save_path:str=None, features_to_extract:dict=None, include_key_and_mdate:bool=False, output:str="jsonl")->None:
+        """
+        This function parses the DBLP XML file and builds a jsonl file in which
+        each row is json dictionary containing the description of a single article
+        in DBLP.
 
+        Parameters
+        ----------
+        root : etree._Element
+            etree._Element of the DBLP file.
+        save_path : str, optional
+            Destination file of the parsed DBLP file. This is important when
+            extracting the JSONL. If extracting dataframe there is no need. It
+            will raise an exception if the save_path is not provided when
+            extracting the JSONL. The default is JSONL.
+        features_to_extract : dict, optional
+            User-defined features to extract. The default is None and then it
+            will extract all features.
+        include_key_and_mdate : bool, optional
+            Defines whether to include key and mdate attribute from the
+            document attribute list. The default is False.
+        output : str, optional
+            Defines the kind of output to return. Accepted values are "jsonl"
+            and "dataframe". Based on these parameters it will respectively
+            create a jsonl file or return a dataframe.
+
+        Returns
+        -------
+        dataframe : pandas.DataFrame
+            the dataframe containing all papers. This is returned only if
+            output is set to "dataframe"
+
+
+        """
+
+        if output not in ["jsonl", "dataframe"]:
+            raise ValueError("Outputs available are 'jsonl', or 'dataframe'.")
+
+        features_to_extract = self.__check_features(features_to_extract)
+
+        if output == "jsonl":
+
+            if save_path is None:
+                raise ValueError("No save path provided.")
+
+            self.__log_msg("Parsing all. Started.")
+
+            with open(save_path, 'w', encoding='utf8') as file:
+
+                for element in root:
+                    if element.tag in self.all_elements:
+                        attrib_values = self.__extract_features(element, features_to_extract, include_key_and_mdate)
+                        file.write(json.dumps(attrib_values) + '\n')
+
+                    self.__clear_element(element)
+
+            file.close()
+
+            self.__log_msg("Parsing all. Finished.")
+
+        elif output == "dataframe":
+
+            self.__log_msg("WARNING. This operation may take some time and will certainly use an abundance of RAM.")
+
+            self.__log_msg("Parsing all. Started.")
+
+            # initialise loop
+            count = 0 # initialise counter for root elements
+            start_time = time.time() # initialise timer
+            dataframes = [] # initialise empty list for appending dataframes
+
+            for element in root:
+                if element.tag in self.all_elements:
+                    attrib_values = self.__extract_features(element, features_to_extract, include_key_and_mdate)
+                    df_attrib_values = pd.DataFrame([attrib_values], columns=list(features_to_extract))
+                    df_attrib_values['tag'] = element.tag
+                    dataframes.append(df_attrib_values)
+
+                # print progress status for every 10,000 elements parsed
+                count += 1
+                if count%100000 == 0:
+                    time_taken = time.time()-start_time
+                    remaining_elements = len(root)-count
+                    self.__log_msg(f"""
+                    Elements parsed: {count}
+                    Time Taken: {time_taken/60} minutes
+                    Remaining Elements: {remaining_elements}
+                    Estimated Time Remaining: {(time_taken/count)*(remaining_elements)/60} minutes
+                    -------
+                    """)
+
+            # combine list of dataframes into one
+            dataframe = pd.concat(dataframes, ignore_index=True)
+
+            self.__log_msg("Parsing batch. Finished.")
+            return dataframe
 
     def print_features(self)->None:
         """

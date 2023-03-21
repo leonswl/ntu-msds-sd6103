@@ -90,7 +90,12 @@ To simplify the execution of scripts, parameters for calling the modules can pre
   dblp_path: "artifacts/dblp.xml" # if the files are in the artifacts subfolder
   dblp_path: "dblp.xml" # if the files are in the root folder
   ```
-- `csv_save_path`: path where you want the output csv files to be written to
+- `save_path`: path where you want the output csv files to be written to
+  ```
+  # this is the path to persist the csv data
+  save_path: "<save_path>"
+  save_path: "artifacts" # if artifacts is the subfolder for storing the output file
+  ```
 
 **split**
 - `csv_save_path`: path where parsed csv file is stored at
@@ -104,5 +109,6 @@ To simplify the execution of scripts, parameters for calling the modules can pre
 
 - [dblp_parser](src/dblp_parser.py) - dblp parser script is referenced from [angelosalatino](https://github.com/angelosalatino/dblp-parser) with some slight adaptions. Namely the `DBLP.parse_all()` method uses the `pandas.concat()` instead of the deprecated `frame.append()` to improve efficiency. Iteratively appending rows using the `frame.append()` method can be more computationally intensive than a single concatenate. The adaption creates an empty list and appends new dataframes to the list, and then concatenate the list of dataframes all at once. A progress tracking output is also added for logging to indicate progress state.
 - [splt csv](src/split.py) - the csv split script is referenced and adapted from [kelvintaywl](https://gist.github.com/kelvintaywl/37dbfaea789707ec5f48#file-split-py)
-
+- [DBLP - Some Lessons Learnt](https://dblp.uni-trier.de/xml/docu/dblpxml.pdf)
+- [DBLP - XML Requests](https://dblp.uni-trier.de/xml/docu/dblpxmlreq.pdf)
 

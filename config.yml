@@ -1,6 +1,8 @@
 execute_parser:
   dblp_path: "artifacts/dblp.xml"
-  csv_save_path: "artifacts/dblp.csv"
+  save_path: "artifacts"
+  batch: 1000000
+  log_path: "logs"
 
 split:
   read_path: "artifacts/dblp.csv"
@@ -9,4 +11,4 @@ split:
 
 combine:
   read_path: "artifacts/split"
-  output_path: "artifacts"
+  output_path: "artifacts/batch"

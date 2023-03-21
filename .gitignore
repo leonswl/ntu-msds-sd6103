@@ -5,6 +5,7 @@
 *.gz
 *dblp.csv
 *dblp_copy.csv
+*dblp_batch*.csv
 *.DS_Store
 *.parquet
 
