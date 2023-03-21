@@ -96,6 +96,15 @@ To simplify the execution of scripts, parameters for calling the modules can pre
   save_path: "<save_path>"
   save_path: "artifacts" # if artifacts is the subfolder for storing the output file
   ```
+- `batch`: number of elements to be parsed in a single batch
+  ```
+  batch: 1000000 # must be integer
+  ```
+- `log_path`: path to store logs at
+  ```
+  log_path: "<path>"
+  log_path: "logs" # if logs is the subfolder for storing log files
+  ```
 
 **split**
 - `csv_save_path`: path where parsed csv file is stored at
