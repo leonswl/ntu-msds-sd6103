@@ -80,7 +80,7 @@ python3 src/combine.py
 
 ### 4. Configuration
 
-To simplify the execution of scripts, parameters for calling the modules can predefined using [config.yml](config.yml). 
+To simplify the execution of scripts, parameters for calling the modules can be predefined using [config.yml](config.yml). 
 
 **execute_parser**
 - `dblp_path`: path where your dblp datasets are stored at
