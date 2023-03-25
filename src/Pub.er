@@ -1,0 +1,141 @@
+title {label: "Publication Entity-Relationship diagram", size: "20"}
+
+# Nice colors from Erwiz:
+# red #fcecec
+# blue #ececfc
+# green #d0e0d0
+# yellow #fbfbdb
+# orange #eee0a0
+
+# Entities
+
+[Publication] {bgcolor: "#d0e0d0"}
+    *key {label: "varchar, not null"}
+    title {label: "varchar, null"}
+    year {label: "varchar, not null"}
+
+[Article] {bgcolor: "#fcecec"}
+    booktitle {label: "varchar, null"}
+    cdrom {label: "varchar, null"}
+    cite {label: "varchar, null"}
+    crossref {label: "varchar, null"}
+    editor {label: "varchar, null"}
+    ee {label: "varchar, null"}
+    journal {label: "varchar, null"}
+    month {label: "varchar, null"}
+    note {label: "varchar, null"}
+    number {label: "varchar, null"}
+    pages {label: "varchar, null"}
+    publisher {label: "varchar, null"}
+    publnr {label: "varchar, null"}
+    url {label: "varchar, null"}
+    volume {label: "varchar, null"}
+
+[Book] {bgcolor: "#fcecec"}
+    booktitle {label: "varchar, null"}
+    cdrom {label: "varchar, null"}
+    cite {label: "varchar, null"}
+    editor {label: "varchar, null"}
+    ee {label: "varchar, null"}
+    isbn {label: "varchar, null"}
+    month {label: "varchar, null"}
+    note {label: "varchar, null"}
+    pages {label: "varchar, null"}
+    publisher {label: "varchar, null"}
+    school {label: "varchar, null"}
+    series {label: "varchar, null"}
+    url {label: "varchar, null"}
+    volume {label: "varchar, null"}
+
+[Incollection] {bgcolor: "#fcecec"}
+    booktitle {label: "varchar, null"}
+    cdrom {label: "varchar, null"}
+    chapter {label: "varchar, null"}
+    cite {label: "varchar, null"}
+    crossref {label: "varchar, null"}
+    ee {label: "varchar, null"}
+    note {label: "varchar, null"}
+    number {label: "varchar, null"}
+    pages {label: "varchar, null"}
+    publisher {label: "varchar, null"}
+    url {label: "varchar, null"}
+
+[Inproceddings] {bgcolor: "#fcecec"}
+    booktitle {label: "varchar, null"}
+    cdrom {label: "varchar, null"}
+    cite {label: "varchar, null"}
+    crossref {label: "varchar, null"}
+    editor {label: "varchar, null"}
+    ee {label: "varchar, null"}
+    month {label: "varchar, null"}
+    note {label: "varchar, null"}
+    number {label: "varchar, null"}
+    pages {label: "varchar, null"}
+    url {label: "varchar, null"}
+    volume {label: "varchar, null"}
+
+[Proceedings] {bgcolor: "#fcecec"}
+    address {label: "varchar, null"}
+    booktitle {label: "varchar, null"}
+    cite {label: "varchar, null"}
+    editor {label: "varchar, null"}
+    ee {label: "varchar, null"}
+    isbn {label: "varchar, null"}
+    journal {label: "varchar, null"}
+    note {label: "varchar, null"}
+    number {label: "varchar, null"}
+    pages {label: "varchar, null"}
+    publisher {label: "varchar, null"}
+    school {label: "varchar, null"}
+    series {label: "varchar, null"}
+    url {label: "varchar, null"}
+    volume {label: "varchar, null"}
+
+[www] {bgcolor: "#fcecec"}
+    cite {label: "varchar, null"}
+    crossref {label: "varchar, null"}
+    editor {label: "varchar, null"}
+    ee {label: "varchar, null"}
+    note {label: "varchar, null"}
+    url {label: "varchar, null"}
+
+[Masterthesis] {bgcolor: "#fcecec"}
+    ee {label: "varchar, null"}
+    note {label: "varchar, null"}
+    school {label: "varchar, null"}
+
+[Phdthesis] {bgcolor: "#fcecec"}
+    ee {label: "varchar, null"}
+    isbn {label: "varchar, null"}
+    month {label: "varchar, null"}
+    note {label: "varchar, null"}
+    number {label: "varchar, null"}
+    pages {label: "varchar, null"}
+    publisher {label: "varchar, null"}
+    school {label: "varchar, null"}
+    series {label: "varchar, null"}
+    volume {label: "varchar, null"}
+
+[Data] {bgcolor: "#fcecec"}
+    crossref {label: "varchar, null"}
+    ee {label: "varchar, null"}
+    month {label: "varchar, null"}
+    number {label: "varchar, null"}
+    publisher {label: "varchar, null"}
+    title {label: "varchar, null"}
+    year {label: "varchar, null"}
+
+[Author] {bgcolor: "#ececfc"}
+    *id {label: "varchar, not null"}
+    name {label: "varchar, not null"}
+
+Author       *--* Publication     {label: "Authored"}
+Publication  1--* Article         {label: "isA"}
+Publication  1--* Book            {label: "isA"}
+Publication  1--* Incollection    {label: "isA"}
+Publication  1--* Inproceddings   {label: "isA"}
+Proceedings  *--1 Publication     {label: "isA"}
+www          *--1 Publication     {label: "isA"}
+Masterthesis *--1 Publication     {label: "isA"}
+Phdthesis    *--1 Publication     {label: "isA"}
+Data         *--1 Publication     {label: "isA"}
