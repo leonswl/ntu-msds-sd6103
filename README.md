@@ -121,3 +121,9 @@ To simplify the execution of scripts, parameters for calling the modules can be 
 - [DBLP - Some Lessons Learnt](https://dblp.uni-trier.de/xml/docu/dblpxml.pdf)
 - [DBLP - XML Requests](https://dblp.uni-trier.de/xml/docu/dblpxmlreq.pdf)
 
+### E/R diagram
+Use [erd-go](!https://github.com/kaishuu0123/erd-go/) to draw the E/R diagram, run this:
+```shell
+cat src/Pub.er | erd-go | dot -Tpng -o assets/Pub-ER.png
+```
+Note: You use VsCode plugin `ERD Syntax Highlighting` to highli
