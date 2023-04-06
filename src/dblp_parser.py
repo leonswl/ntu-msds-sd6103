@@ -378,7 +378,7 @@ class DBLP:
             return ""
 
 
-    def __extract_features(self, elements:etree._Element, features_to_extract:dict, include_key_and_mdate:bool=False)->dict:
+    def __extract_features(self, elements:etree._Element, features_to_extract:dict, include_key_and_mdate:bool=True) -> dict:
         """
         Extracts the values of features.
 
@@ -399,14 +399,20 @@ class DBLP:
 
         """
 
-
-
-        if include_key_and_mdate:
-            attributes = {  'type'    : elements.tag,
-                            'key'     : elements.attrib['key'],
-                            'mdate'   : elements.attrib['mdate']}#,
-                            #'publtype': elements.attrib['publtype']}
-        else:
+        if include_key_and_mdate == True:
+            try:
+                publtype = elements.attrib['publtype']
+            except Exception as e: 
+                publtype = None
+            finally:
+                tag = elements.tag
+                key = elements.attrib['key']
+                mdate = elements.attrib['mdate']
+            attributes = {  'type'    : tag,
+                            'key'     : key,
+                            'mdate'   : mdate,
+                            'publtype': publtype}
+        elif include_key_and_mdate == False:
             attributes = { 'type'    : elements.tag}
 
         attributes = self.__init_features(features_to_extract, attributes)
@@ -511,6 +517,7 @@ class DBLP:
                 for element in root:
                     if element.tag in self.all_elements:
                         attrib_values = self.__extract_features(element, features_to_extract, include_key_and_mdate)
+                        print(attrib_values)
                         if attrib_values["year"] == year:
                             file.write(json.dumps(attrib_values) + '\n')
 
@@ -731,7 +738,7 @@ class DBLP:
             self.__log_msg("Parsing all. Finished.")
             return dataframe
         
-    def parse_batch(self, root:etree._Element, save_path:str=None, features_to_extract:dict=None, include_key_and_mdate:bool=False, output:str="jsonl")->None:
+    def parse_batch(self, root:etree._Element, save_path:str=None, features_to_extract:dict=None, include_key_and_mdate:bool=True, output:str="jsonl")->None:
         """
         This function parses the DBLP XML file and builds a jsonl file in which
         each row is json dictionary containing the description of a single article
@@ -783,6 +790,7 @@ class DBLP:
                 for element in root:
                     if element.tag in self.all_elements:
                         attrib_values = self.__extract_features(element, features_to_extract, include_key_and_mdate)
+                        print(attrib_values)
                         file.write(json.dumps(attrib_values) + '\n')
 
                     self.__clear_element(element)
@@ -806,7 +814,10 @@ class DBLP:
                 if element.tag in self.all_elements:
                     attrib_values = self.__extract_features(element, features_to_extract, include_key_and_mdate)
                     df_attrib_values = pd.DataFrame([attrib_values], columns=list(features_to_extract))
-                    df_attrib_values['tag'] = element.tag
+                    df_attrib_values['tag'] = attrib_values.get('type')
+                    df_attrib_values['key'] = attrib_values.get('key')
+                    df_attrib_values['publtype'] = attrib_values.get('publtype')
+
                     dataframes.append(df_attrib_values)
 
                 # print progress status for every 10,000 elements parsed
