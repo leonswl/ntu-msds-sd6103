@@ -12,3 +12,10 @@ split:
 combine:
   read_path: "artifacts/split"
   output_path: "artifacts/batch"
+
+sample:
+  read_path: "artifacts"
+  filename: "dblp.csv"
+  output_path: "artifacts"
+  sample_frac: 0.05 # frac between 0 and 1
+  
