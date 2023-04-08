@@ -22,5 +22,5 @@ sample:
   read_path: "artifacts"
   filename: "dblp.csv"
   output_path: "artifacts"
-  sample_frac: 0.05 # frac between 0 and 1
+  sample_frac: 0.01 # frac between 0 and 1
   
