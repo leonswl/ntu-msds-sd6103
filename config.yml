@@ -17,3 +17,10 @@ generate:
   read_path: "artifacts/dblp.csv"
   aut_output_path: "artifacts/author.csv"
   autpub_output_path: "artifacts/publication-author.csv"
+
+sample:
+  read_path: "artifacts"
+  filename: "dblp.csv"
+  output_path: "artifacts"
+  sample_frac: 0.05 # frac between 0 and 1
+  
