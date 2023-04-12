@@ -140,4 +140,4 @@ Use [erd-go](!https://github.com/kaishuu0123/erd-go/) to draw the E/R diagram, r
 ```shell
 cat src/Pub.er | erd-go | dot -Tpng -o assets/Pub-ER.png
 ```
-Note: You use VsCode plugin `ERD Syntax Highlighting`.
+Note: You use VsCode plugin `ERD Syntax Highlighting` to highlight syntax
