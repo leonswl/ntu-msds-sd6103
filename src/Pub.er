@@ -10,32 +10,38 @@ title {label: "Publication Entity-Relationship diagram", size: "20"}
 # Entities
 
 [Publication] {bgcolor: "#d0e0d0"}
-    *id {label: "int, not null"}
-    key {label: "varchar, not null"}
-    tag {label: "varchar, not null"}
-    title {label: "varchar, null"}
-    year {label: "varchar, not null"}
-    booktitle {label: "varchar, null"}
-    cdrom {label: "varchar, null"}
-    cite {label: "varchar, null"}
-    crossref {label: "varchar, null"}
-    editor {label: "varchar, null"}
+    *Id {label: "int, not null"}
+    Key {label: "varchar, not null"}
+    Tag {label: "varchar, not null"}
+    Title {label: "varchar, null"}
+    Year {label: "varchar, not null"}
+    BookTitle {label: "varchar, null"}
+    Cdrom {label: "varchar, null"}
+    Cite {label: "varchar, null"}
+    CrossRef {label: "varchar, null"}
+    Editor {label: "varchar, null"}
     ee {label: "varchar, null"}
-    journal {label: "varchar, null"}
-    month {label: "varchar, null"}
-    note {label: "varchar, null"}
-    number {label: "varchar, null"}
-    pages {label: "varchar, null"}
-    publisher {label: "varchar, null"}
-    publnr {label: "varchar, null"}
-    url {label: "varchar, null"}
-    volume {label: "varchar, null"}
-    school {label: "varchar, null"}
-    series {label: "varchar, null"}
-    isbn {label: "varchar, null"}
+    Journal {label: "varchar, null"}
+    Month {label: "varchar, null"}
+    Note {label: "varchar, null"}
+    Number {label: "varchar, null"}
+    Pages {label: "varchar, null"}
+    Publisher {label: "varchar, null"}
+    Publnr {label: "varchar, null"}
+    Url {label: "varchar, null"}
+    Volume {label: "varchar, null"}
+    School {label: "varchar, null"}
+    Series {label: "varchar, null"}
+    Isbn {label: "varchar, null"}
 
 [Author] {bgcolor: "#ececfc"}
-    *id {label: "int, not null"}
-    name {label: "varchar, not null"}
+    *Id {label: "int, not null"}
+    Name {label: "varchar, not null"}
 
-Author       *--* Publication     {label: "Authored"}
+[Publish] {bgcolor: "#fcecec"}
+    *Id {label: "int, not null"}
+    AuthorId {label: "int, not null"}
+    PublicationId {label: "int, not null"}
+
+Publication       *--* Publish     {label: "Published"}
+Publish       *--* Author {label: "Authored"}

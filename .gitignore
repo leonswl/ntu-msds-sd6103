@@ -9,6 +9,9 @@
 *.DS_Store
 *.parquet
 # *dblp_sample.csv
+*publish.csv
+*publication.csv
+*author.csv
 
 
 # Byte-compiled / optimized / DLL files
