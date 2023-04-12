@@ -15,8 +15,9 @@ combine:
 
 generate:
   read_path: "artifacts/dblp.csv"
-  aut_output_path: "artifacts/author.csv"
-  autpub_output_path: "artifacts/publication-author.csv"
+  author_output_path: "artifacts/author.csv"
+  publication_output_path: "artifacts/publication.csv"
+  publish_output_path: "artifacts/publish.csv"
 
 sample:
   read_path: "artifacts"
