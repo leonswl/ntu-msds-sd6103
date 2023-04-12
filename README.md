@@ -13,8 +13,10 @@
     - [3.2. Downloading and Preparing dataset](#32-downloading-and-preparing-dataset)
     - [3.3. Parsing and extracting the xml data to a csv](#33-parsing-and-extracting-the-xml-data-to-a-csv)
     - [3.4. Split and Combine](#34-split-and-combine)
+    - [3.5. Random Sample](#35-random-sample)
     - [4. Configuration](#4-configuration)
     - [5. References](#5-references)
+    - [6. E/R diagram](#6-er-diagram)
 
 ## 2. Installations
 
@@ -78,6 +80,12 @@ Due to the large file size of the dblp file, it will be not feasible to upload t
 python3 src/combine.py
 ```
 
+### 3.5. Random Sample
+
+We will random sample a portion of the dataset to validate our schema design. 
+
+`sample.py` is used to sample the `dblp.csv` file based on an input fraction parameter specified in `config.yml`. Note that `sample_frac` must satisfy (0,1). Any value outside of this range will raise an AssertionError. 
+
 ### 4. Configuration
 
 To simplify the execution of scripts, parameters for calling the modules can be predefined using [config.yml](config.yml). 
@@ -114,6 +122,12 @@ To simplify the execution of scripts, parameters for calling the modules can be 
 - `read_path`: path where split csv files are stored at
 - `output_path`: path where combined dataset to be written to
 
+**sample**
+- `read_path`: path for reading the data file for sample
+- `filename`: sample filename
+- `output_path`: path for exporting sampled data
+- `sample_frac`: fraction of data to be sampled. Value must satisfy (0,1)
+
 ### 5. References
 
 - [dblp_parser](src/dblp_parser.py) - dblp parser script is referenced from [angelosalatino](https://github.com/angelosalatino/dblp-parser) with some slight adaptions. Namely the `DBLP.parse_all()` method uses the `pandas.concat()` instead of the deprecated `frame.append()` to improve efficiency. Iteratively appending rows using the `frame.append()` method can be more computationally intensive than a single concatenate. The adaption creates an empty list and appends new dataframes to the list, and then concatenate the list of dataframes all at once. A progress tracking output is also added for logging to indicate progress state.
@@ -121,7 +135,7 @@ To simplify the execution of scripts, parameters for calling the modules can be 
 - [DBLP - Some Lessons Learnt](https://dblp.uni-trier.de/xml/docu/dblpxml.pdf)
 - [DBLP - XML Requests](https://dblp.uni-trier.de/xml/docu/dblpxmlreq.pdf)
 
-### E/R diagram
+### 6. E/R diagram
 Use [erd-go](!https://github.com/kaishuu0123/erd-go/) to draw the E/R diagram, run this:
 ```shell
 cat src/Pub.er | erd-go | dot -Tpng -o assets/Pub-ER.png

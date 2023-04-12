@@ -8,6 +8,7 @@
 *dblp_batch*.csv
 *.DS_Store
 *.parquet
+# *dblp_sample.csv
 
 
 # Byte-compiled / optimized / DLL files
