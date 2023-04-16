@@ -37,7 +37,7 @@ CREATE TABLE publication (
     booktitle VARCHAR(255) NULL,
     cdrom VARCHAR(255) NULL,
     chapter VARCHAR(255) NULL,
-    cite VARCHAR(255) NULL,
+    cite VARCHAR(65535) NULL,
     crossref VARCHAR(255) NULL,
     editor VARCHAR(255) NULL,
     ee VARCHAR(255) NULL,
@@ -59,3 +59,7 @@ CREATE TABLE publication (
 	PubKey VARCHAR(255) NOT NULL, 
     publtype VARCHAR(255) NULL
 );
+
+-- alter authors table with PK
+ALTER TABLE publication
+ADD CONSTRAINT PK_publication PRIMARY KEY (Id);
