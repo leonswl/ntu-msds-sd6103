@@ -817,6 +817,7 @@ class DBLP:
                     df_attrib_values['tag'] = attrib_values.get('type')
                     df_attrib_values['key'] = attrib_values.get('key')
                     df_attrib_values['publtype'] = attrib_values.get('publtype')
+                    df_attrib_values['mdate'] = attrib_values.get('mdate')
 
                     dataframes.append(df_attrib_values)
 

@@ -65,7 +65,7 @@ def main():
         
         logging.info(f"""
             Currently parsing batch {i+1}
-            Total elements in this batch: {len(root)}
+            Total elements in this batch: {len(root_batch)}
             Index boundary: {(left_index, right_index)}
             """)
 
@@ -89,7 +89,7 @@ def main():
             Completed batch: {i+1}
             Number of batches remaining: {batch_size - (i+1)}
 
-            Number of elements successfully parsed in list of dataframe: {len(dataframes)}
+            Number of batch(es) successfully parsed in list of dataframe: {len(dataframes)}
 
             Time taken for parsing batch: {round(batch_time_taken/60,2)} minutes
             Total parsing time elapsed: {round(total_time_taken/60,2)} minutes            
