@@ -60,6 +60,16 @@ CREATE TABLE publication (
     publtype VARCHAR(255) NULL
 );
 
--- alter authors table with PK
+-- alter publication table 
+-- Add PK Primary Key
 ALTER TABLE publication
-ADD CONSTRAINT PK_publication PRIMARY KEY (Id);
+	ADD CONSTRAINT PK_publication PRIMARY KEY (Id);
+
+
+ALTER TABLE publication
+	ADD CONSTRAINT UC_Date UNIQUE (Id, year, month);
+
+-- Add partition
+ALTER TABLE publication
+	PARTITION BY Key(year)
+    PARTITIONS 89;

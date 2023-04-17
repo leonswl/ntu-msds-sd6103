@@ -2,3 +2,5 @@
 -- Note that one conference may be held every year 
 -- (e.g., KDD runs many years, and each year the conference has a number of papers).
 
+SELECT DISTINCT(publtype)
+FROM dblpdb.publication

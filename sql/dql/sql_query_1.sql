@@ -10,7 +10,8 @@ SELECT
     COUNT(DISTINCT PubKey) AS publication_count
 FROM 
 	dblpdb.publication
-WHERE YEAR BETWEEN 2010 AND 2019
+WHERE YEAR > 2010 
+AND YEAR < 2019
 GROUP BY
 	tag
     
