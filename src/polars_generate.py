@@ -28,7 +28,9 @@ def generate():
     df_publication = df_publication.rename({'key':'PubKey'})
     df_splitpubkey = df_publication.select(pl.col('PubKey').str.split('/').arr.to_struct(n_field_strategy="max_width")).unnest('PubKey')
     df_splitpubkey.columns = ['PubKey1', 'PubKey2', 'PubKey3', 'PubKey4', 'PubKey5']
-    df_publication_new = pl.concat([df_publication,df_splitpubkey],how="horizontal")
+    df_publication_id = pl.DataFrame(range(len(df_publication)),schema=[('Id')]) # create dataframe with id column for publication table
+    df_publication_new = pl.concat([df_publication_id,df_publication,df_splitpubkey],how="horizontal")
+    df_publication_new = df_publication_new.drop(['cdrom','cite', 'crossref','editor','ee','isbn','note', 'number', 'pages','url', 'volume','publnr','PubKey3','PubKey4','PubKey5','chapter','address']) # drop irrelevant columns
 
     print("Publication - Completed transformation and cleaning")
 
@@ -44,20 +46,27 @@ def generate():
 
     # GENERATE PUBLISH AND AUTHOR FILES
     print("Commencing generation of Publication export")
+
     # Create dataframe for publish and authors
     df_publish_rows = [(row['key'], author) for row in data[['key', 'author']].rows(named=True) for author in ast.literal_eval(row['author'])]
     df_publish = pl.DataFrame(df_publish_rows, schema=[('PubKey'),('AuthorName')])
-    print("Publish & Authors - Completed transformation and cleaning")
+    df_publish_id = pl.DataFrame(range(len(df_publish)),schema=[('Id')]) # create dataframe with id column for publish table
+    df_publish_new = pl.concat([df_publish_id,df_publish],how='horizontal') # concat dataframe with PublishId column with publish dataframe
     authors = set(df_publish['AuthorName'].unique())
+    df_authors_id = pl.DataFrame(range(len(authors)),schema=[('Id')]) # create dataframe with id column for author table
     df_authors = pl.DataFrame({'Name': list(authors)})
+    df_authors_new = pl.concat([df_authors_id,df_authors],how='horizontal') # concat dataframe with AuthorId column with authors dataframe
+
+    print("Publish & Authors - Completed transformation and cleaning")
 
     # Write dataframes to CSV files
-    df_authors.write_csv(
+    df_authors_new.write_csv(
         file=author_output_path,
         has_header=True,
         separator=',',
         quote='"')
-    df_publish.write_csv(
+    
+    df_publish_new.write_csv(
         file=publish_output_path,
         has_header=True,
         separator=',',
