@@ -30,7 +30,7 @@ def generate():
     df_splitpubkey.columns = ['PubKey1', 'PubKey2', 'PubKey3', 'PubKey4', 'PubKey5']
     df_publication_id = pl.DataFrame(range(len(df_publication)),schema=[('Id')]) # create dataframe with id column for publication table
     df_publication_new = pl.concat([df_publication_id,df_publication,df_splitpubkey],how="horizontal")
-    df_publication_new = df_publication_new.drop(['cdrom','cite', 'crossref','editor','ee','isbn','note', 'number', 'pages','url', 'volume','publnr','PubKey3','PubKey4','PubKey5','chapter','address']) # drop irrelevant columns
+    df_publication_new = df_publication_new.drop(['cdrom','cite', 'crossref','editor','ee','isbn','note', 'number', 'pages','url', 'volume','publnr','PubKey3','PubKey4','PubKey5','chapter','address', 'Unnamed: 0']) # drop irrelevant columns
     print(df_publication_new.head())
 
     print("Publication - Completed transformation and cleaning")
