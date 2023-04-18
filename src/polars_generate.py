@@ -31,6 +31,7 @@ def generate():
     df_publication_id = pl.DataFrame(range(len(df_publication)),schema=[('Id')]) # create dataframe with id column for publication table
     df_publication_new = pl.concat([df_publication_id,df_publication,df_splitpubkey],how="horizontal")
     df_publication_new = df_publication_new.drop(['cdrom','cite', 'crossref','editor','ee','isbn','note', 'number', 'pages','url', 'volume','publnr','PubKey3','PubKey4','PubKey5','chapter','address']) # drop irrelevant columns
+    print(df_publication_new.head())
 
     print("Publication - Completed transformation and cleaning")
 
@@ -57,6 +58,18 @@ def generate():
     df_authors = pl.DataFrame({'Name': list(authors)})
     df_authors_new = pl.concat([df_authors_id,df_authors],how='horizontal') # concat dataframe with AuthorId column with authors dataframe
 
+    df_publication_new = df_publication_new.rename({'Id': 'PublicationId'})
+    df_publication_new_select = df_publication_new.select(['PublicationId', 'PubKey'])
+    df_publish_new_join = df_publish_new.join(df_publication_new_select, on='PubKey', how='left')
+
+    df_authors_new = df_authors_new.rename({'Name': 'AuthorName'})
+    df_authors_new = df_authors_new.rename({'Id': 'AuthorId'})
+    df_publish_new_join = df_publish_new_join.join(df_authors_new, on='AuthorName', how='left')
+
+    df_publish_new_fina = df_publish_new_join.drop("PubKey", "AuthorName")
+    print(df_authors_new.head())
+    print(df_publish_new_join.head())
+
     print("Publish & Authors - Completed transformation and cleaning")
 
     # Write dataframes to CSV files
@@ -66,7 +79,7 @@ def generate():
         separator=',',
         quote='"')
     
-    df_publish_new.write_csv(
+    df_publish_new_fina.write_csv(
         file=publish_output_path,
         has_header=True,
         separator=',',
