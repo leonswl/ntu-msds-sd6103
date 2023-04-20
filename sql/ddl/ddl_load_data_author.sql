@@ -1,3 +1,5 @@
+USE `dblpdb`;
+
 -- DDL LOAD AUTHOR DATA FILE
 
 LOAD DATA

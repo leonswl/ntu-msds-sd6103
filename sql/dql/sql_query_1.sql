@@ -3,15 +3,12 @@
  -- Your query should return a set of (publication-type, count) pairs. 
  -- For example, (article, 20000), (inproceedings, 30000), ...
  
--- Without  
-
-SELECT 
-	tag AS publication_type,
-    COUNT(DISTINCT PubKey) AS publication_count
-FROM 
-	dblpdb.publication
-WHERE YEAR > 2010 
+SELECT
+   tag AS PublicationType,
+   COUNT(DISTINCT PubKey) AS PublicationCount
+FROM
+   dblpdb.publication
+WHERE YEAR > 2010
 AND YEAR < 2019
-GROUP BY
-	tag
-    
+GROUP BY tag
+ORDER BY PublicationCount DESC
